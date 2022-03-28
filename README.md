@@ -1,3 +1,5 @@
 # ComradeFinder
 
-With REST controllers and is fixed so that object references work
+Main branch has the original project.
+
+Use the RESTful branch to get the restful version to use as a backend
