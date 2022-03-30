@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 
 
-@Controller
+@RestController
 public class HomeController {
 
     CompanyService companyService;
