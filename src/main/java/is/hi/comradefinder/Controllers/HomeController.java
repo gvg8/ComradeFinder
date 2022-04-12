@@ -92,17 +92,22 @@ public class HomeController {
             @PathVariable(value="username") String username,
             @PathVariable(value="password") String password)
     {
+        log.info("Login request received: " + username + " & " + password);
         User user = userService.findByUsername(username);
-        user.setPassword(password);
-        if (userService.login(user) != null) {
-            user.setPassword(""); // For security reasons (no need to store password in app after login)
-            return user;
+        if (user != null) {
+            user.setPassword(password);
+            if (userService.login(user) != null) {
+                user.setPassword(""); // For security reasons (no need to store password in app after login)
+                return user;
+            }
         }
         Company company = companyService.findByUsername(username);
-        company.setPassword(password);
-        if (companyService.login(company) != null) {
-            company.setPassword(""); // For security reasons (no need to store password in app after login)
-            return company;
+        if (user != null) {
+            company.setPassword(password);
+            if (companyService.login(company) != null) {
+                company.setPassword(""); // For security reasons (no need to store password in app after login)
+                return company;
+            }
         }
 
         return null;
@@ -110,7 +115,9 @@ public class HomeController {
 
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
     public ResponseEntity<?> register(@Valid @RequestBody User user) {
-
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User info is null");
+        }
         if (userService.findByUsername(user.getUsername()) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already taken");
         }
