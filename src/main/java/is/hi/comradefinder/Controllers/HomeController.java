@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Map;
 
 
 @RestController
@@ -114,14 +116,26 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@Valid @RequestBody User user) {
-        if (user == null) {
+    public ResponseEntity<?> register(@Valid @RequestBody ArrayList<String> user) {
+        log.info("Logging out info: " + user.toString());
+        String username = user.get(0);
+        String password = user.get(1);
+        String phone = user.get(2);
+        String email = user.get(3);
+        log.info("Register request received: " + username + " & " + password);
+        if (username == null || username == "" ||
+            password == null || password == "" ||
+            phone == null || email == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User info is null");
         }
-        if (userService.findByUsername(user.getUsername()) != null) {
+        if (userService.findByUsername(username) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already taken");
         }
-        return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+        // As of right now, displayName and description is unsupported. Might be added later.
+        User userCreated = new User(username, password, phone, email, "", "");
+        log.info("Register checks passed");
+        return new ResponseEntity<>(userService.save(userCreated), HttpStatus.CREATED);
+        /**/
     }
 
 }
