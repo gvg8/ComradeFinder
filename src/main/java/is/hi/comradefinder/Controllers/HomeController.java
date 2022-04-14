@@ -95,21 +95,16 @@ public class HomeController {
             @PathVariable(value="password") String password)
     {
         log.info("Login request received: " + username + " & " + password);
-        User user = userService.findByUsername(username);
-        if (user != null) {
-            user.setPassword(password);
-            if (userService.login(user) != null) {
-                user.setPassword(""); // For security reasons (no need to store password in app after login)
-                return user;
-            }
+        User user = new User(username, password, "", "", "", "");
+        log.info("Password check: " + user.getPassword());
+        if (userService.login(user) != null) {
+            user.setPassword(""); // For security reasons (no need to store password in app after login)
+            return user;
         }
-        Company company = companyService.findByUsername(username);
-        if (user != null) {
-            company.setPassword(password);
-            if (companyService.login(company) != null) {
-                company.setPassword(""); // For security reasons (no need to store password in app after login)
-                return company;
-            }
+        Company company = new Company(username, password, "", "", "", "", 0, "", "");
+        if (companyService.login(company) != null) {
+            company.setPassword(""); // For security reasons (no need to store password in app after login)
+            return company;
         }
 
         return null;
