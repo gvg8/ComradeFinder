@@ -9,15 +9,13 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long ID;
     private String title;
-    @ElementCollection(fetch = FetchType.LAZY)
-    private List<String> description;
+    private String description;
     private String priceRange;
     @ElementCollection(fetch= FetchType.LAZY)
     private List<String> extraQuestions;
     //@OneToOne(mappedBy="ad", cascade= CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="company_id")
-    private Company company;
+    @JoinColumn(name="company_username")
+    private long companyID;
     private String linkToPDFImage;
     @OneToMany(fetch=FetchType.LAZY)
     private List<Application> applications;
@@ -28,12 +26,12 @@ public class Ad {
     public Ad() {}
 
 
-    public Ad(String title, List<String> description, List<String> extraQuestions, Company company, String linkToPDFImage) {
+    public Ad(String title, String description, List<String> extraQuestions, long companyID, String linkToPDFImage) {
         this.title = title;
         this.description = description;
         this.priceRange = priceRange;
         this.extraQuestions = extraQuestions;
-        this.company = company;
+        this.companyID = companyID;
         this.linkToPDFImage = linkToPDFImage;
     }
 
@@ -69,11 +67,11 @@ public class Ad {
         this.title = title;
     }
 
-    public List<String> getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(List<String> description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -89,12 +87,12 @@ public class Ad {
         this.extraQuestions = extraQuestions;
     }
 
-    public Company getCompany() {
-        return company;
+    public long getCompanyID() {
+        return companyID;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyID(long company) {
+        this.companyID = company;
     }
 
     public String getLinkToPDFImage() {
@@ -129,7 +127,7 @@ public class Ad {
                 ", description=" + description +
                 ", priceRange=" + priceRange +
                 ", extraQuestions=" + extraQuestions +
-                ", company=" + company +
+                ", company=" + companyID +
                 ", linkToPDFImage='" + linkToPDFImage + '\'' +
                 ", applications=" + applications +
                 ", tags=" + tags +

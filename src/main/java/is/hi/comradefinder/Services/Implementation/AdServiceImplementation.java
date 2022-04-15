@@ -40,6 +40,17 @@ public class AdServiceImplementation implements AdService {
         repository.delete(ad);
     }
 
+    @Override
+    public void deleteByID(long ID) {
+        List<Application> apps = appRepository.findAll();
+        for (Application app : apps) {
+            if (app.getAd().getID() == ID) {
+                appRepository.delete(app);
+            }
+        }
+        repository.delete(repository.findByID(ID));
+    }
+
 
     @Override
     public List<Ad> findAll() {

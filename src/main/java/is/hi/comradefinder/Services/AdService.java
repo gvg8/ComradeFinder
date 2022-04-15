@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface AdService {
     Ad save(Ad ad);
     void delete(Ad ad);
+    void deleteByID(long ID);
 
     List<Ad> findAll();
     Ad findByID(Long id);
