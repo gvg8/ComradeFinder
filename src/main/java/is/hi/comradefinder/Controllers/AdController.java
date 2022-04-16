@@ -38,7 +38,7 @@ public class  AdController {
             return "makeAd";
         }
         Company company = (Company) session.getAttribute("LoggedInUser");
-        ad.setCompanyID(company.getID());
+        ad.setCompanyUsername(company.getUsername());
 
 
         if (ad != null && company != null ) {

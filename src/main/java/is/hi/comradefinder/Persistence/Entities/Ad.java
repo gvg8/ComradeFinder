@@ -15,7 +15,7 @@ public class Ad {
     private List<String> extraQuestions;
     //@OneToOne(mappedBy="ad", cascade= CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name="company_username")
-    private long companyID;
+    private String companyUsername;
     private String linkToPDFImage;
     @OneToMany(fetch=FetchType.LAZY)
     private List<Application> applications;
@@ -26,12 +26,12 @@ public class Ad {
     public Ad() {}
 
 
-    public Ad(String title, String description, List<String> extraQuestions, long companyID, String linkToPDFImage) {
+    public Ad(String title, String description, List<String> extraQuestions, String companyUsername, String linkToPDFImage) {
         this.title = title;
         this.description = description;
         this.priceRange = priceRange;
         this.extraQuestions = extraQuestions;
-        this.companyID = companyID;
+        this.companyUsername = companyUsername;
         this.linkToPDFImage = linkToPDFImage;
     }
 
@@ -87,12 +87,12 @@ public class Ad {
         this.extraQuestions = extraQuestions;
     }
 
-    public long getCompanyID() {
-        return companyID;
+    public String getCompanyUsername() {
+        return companyUsername;
     }
 
-    public void setCompanyID(long company) {
-        this.companyID = company;
+    public void setCompanyUsername(String company) {
+        this.companyUsername = company;
     }
 
     public String getLinkToPDFImage() {
@@ -127,7 +127,7 @@ public class Ad {
                 ", description=" + description +
                 ", priceRange=" + priceRange +
                 ", extraQuestions=" + extraQuestions +
-                ", company=" + companyID +
+                ", company=" + companyUsername +
                 ", linkToPDFImage='" + linkToPDFImage + '\'' +
                 ", applications=" + applications +
                 ", tags=" + tags +
