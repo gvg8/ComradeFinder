@@ -10,7 +10,7 @@ public class Ad {
     private long ID;
     private String title;
     private String description;
-    private String priceRange;
+    private String salaryRange;
     @ElementCollection(fetch= FetchType.LAZY)
     private List<String> extraQuestions;
     //@OneToOne(mappedBy="ad", cascade= CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
@@ -29,7 +29,7 @@ public class Ad {
     public Ad(String title, String description, List<String> extraQuestions, String companyUsername, String linkToPDFImage) {
         this.title = title;
         this.description = description;
-        this.priceRange = priceRange;
+        this.salaryRange = salaryRange;
         this.extraQuestions = extraQuestions;
         this.companyUsername = companyUsername;
         this.linkToPDFImage = linkToPDFImage;
@@ -75,9 +75,9 @@ public class Ad {
         this.description = description;
     }
 
-    public String getPriceRange() { return priceRange; }
+    public String getSalaryRange() { return salaryRange; }
 
-    public void setPriceRange(String priceRange) { this.priceRange = priceRange; }
+    public void setSalaryRange(String priceRange) { this.salaryRange = priceRange; }
 
     public List<String> getExtraQuestions() {
         return extraQuestions;
@@ -125,7 +125,7 @@ public class Ad {
                 "id=" + ID +
                 ", title='" + title + '\'' +
                 ", description=" + description +
-                ", priceRange=" + priceRange +
+                ", priceRange=" + salaryRange +
                 ", extraQuestions=" + extraQuestions +
                 ", company=" + companyUsername +
                 ", linkToPDFImage='" + linkToPDFImage + '\'' +

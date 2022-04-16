@@ -169,7 +169,7 @@ public class HomeController {
         return adService.findAdsByCompany(username);
     }
 
-    @RequestMapping(value = "/deleteAd/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteAd/{id}", method = RequestMethod.POST)
     public ResponseEntity<?> POSTDeleteAd(@PathVariable(value="id") long id) {
         try {
             adService.deleteByID(id);
