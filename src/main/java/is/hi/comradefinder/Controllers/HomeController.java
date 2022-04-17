@@ -91,6 +91,10 @@ public class HomeController {
     // BACKEND MAPPING FOR THE ANDROID APP
     //==================================================================================================================
 
+    //==================================================================================================================
+    // REGISTER & LOGIN
+    //==================================================================================================================
+
     @RequestMapping(value = "/registerUser", method = RequestMethod.POST)
     public ResponseEntity<?> POSTUser(@Valid @RequestBody ArrayList<String> user) {
         log.info("Logging out info: " + user.toString());
@@ -134,28 +138,66 @@ public class HomeController {
         return null;
     }
 
+    //==================================================================================================================
+    // AD - CREATE, GET, GET BY COMPANY, DELETE
+    //==================================================================================================================
+
     @RequestMapping(value = "/createAd", method = RequestMethod.POST)
     public ResponseEntity<?> POSTAd(@Valid @RequestBody ArrayList<String> ad) {
+        // 1. GATHER INPUT
+        // prefix t- means temporary
         log.info("Logging out info: " + ad.toString());
         String title = ad.get(0);
         String description = ad.get(1);
         String salaryRange = ad.get(2);
-        String extraQuestions = ad.get(3);
-        log.info("Logging out info:  extraQuestions=" + extraQuestions);
+        String tExtraQuestions = ad.get(3);
+        log.info("Logging out info:  extraQuestions=" + tExtraQuestions);
         String companyUsername = ad.get(4);
         List<Application> applications = List.of();
-        String tags = ad.get(5);
-        log.info("Logging out info:  tags=" + tags);
-        // TODO: Find a way to convert extraQuestions and Tags to List<String>
-        // TODO: Check if ad from this company with this title already exists
-        // TODO: NonNull: Title, Description, SalaryRange, CompanyUsername
+        String tTags = ad.get(5);
+        log.info("Logging out info:  tags=" + tTags);
 
+        // 2. CONVERT EXTRAQUESTIONS & TAGS FROM STRING TO LIST<STRING>
+        // The front end adds the symbol ␟ around each string so we can decipher it.
+        String[] EQArray = tExtraQuestions.split("␟");
+        List<String> extraQuestions = new ArrayList();
+        // i=i+2 because the string is only between every other ␟ symbol.
+        for (int i = 1; i<EQArray.length; i=i+2) {
+            extraQuestions.add(EQArray[i]);
+        }
+        String[] tagsArray = tTags.split("␟");
+        List<String> tags = new ArrayList();
+        for (int i = 1; i<EQArray.length; i=i+2) {
+            tags.add(tagsArray[i]);
+        }
 
-        // As of right now, displayName and description is unsupported. Might be added later.
-        //Ad adCreated = new User(title, description);
-        //log.info("Register checks passed");
-        //return new ResponseEntity<>(adService.save(adCreated), HttpStatus.CREATED);
-        return null;
+        // 3. CREATE AD
+        Ad newAd = new Ad(title, description, extraQuestions, companyUsername, "");
+        for (String tag : tags) {
+            newAd.addTag(tag);
+        }
+
+        // 4. CHECK IF AD IS VALID
+        // Check if ad already exists
+        List<Ad> AdsSameTitle = adService.findByTitle(title);
+        for (Ad adSameTitle : AdsSameTitle) {
+            if (adSameTitle.getCompanyUsername().equals(newAd.getCompanyUsername())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Ad with this title already exists for this company");
+            }
+        }
+        // Check if required inputs were null
+        String isMissing = "required but found empty";
+        if (title.equals("") || title == null) isMissing = "{title} " + isMissing;
+        if (description.equals("") || description == null) isMissing = "{description} " + isMissing;
+        if (salaryRange.equals("") || salaryRange == null) isMissing = "{salaryRange} " + isMissing;
+        if (companyUsername.equals("") || companyUsername == null) isMissing = "{companyUsername} " + isMissing;
+        if (!isMissing.equals("required but found empty")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, isMissing);
+        }
+
+        // 5. CREATE AD
+        log.info("New Ad checks passed");
+        return new ResponseEntity<>(adService.save(newAd), HttpStatus.CREATED);
     }
 
     // TODO: Maybe I should do some try catches here.
