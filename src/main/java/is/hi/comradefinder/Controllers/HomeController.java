@@ -103,8 +103,8 @@ public class HomeController {
         String phone = user.get(2);
         String email = user.get(3);
         log.info("Register request received: " + username + " & " + password);
-        if (username == null || username == "" ||
-                password == null || password == "" ||
+        if (username == null || username.equals("") ||
+                password == null || password.equals("") ||
                 phone == null || email == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User info is null");
         }
@@ -115,6 +115,31 @@ public class HomeController {
         User userCreated = new User(username, password, phone, email, "", "");
         log.info("Register checks passed");
         return new ResponseEntity<>(userService.save(userCreated), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/registerCompany", method = RequestMethod.POST)
+    public ResponseEntity<?> POSTCompany(@Valid @RequestBody ArrayList<String> company) {
+        log.info("Logging out info: " + company.toString());
+        String username = company.get(0);
+        String password = company.get(1);
+        String phone = company.get(2);
+        String email = company.get(3);
+        String companyName = company.get(4);
+        String SSN = company.get(5);
+        log.info("Register request received: " + username + " & " + password);
+        if (username == null || username.equals("") ||
+                password == null || password.equals("") ||
+                phone == null || email == null ||
+                companyName == null || SSN == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User info is null");
+        }
+        if (companyService.findByUsername(username) != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already taken");
+        }
+        // As of right now, displayName and description is unsupported. Might be added later.
+        Company companyCreated = new Company(username, password, phone, email, companyName, "", Integer.parseInt(SSN), "", "");
+        log.info("Register checks passed");
+        return new ResponseEntity<>(companyService.save(companyCreated), HttpStatus.CREATED);
     }
 
     @RequestMapping("/Login/{username}/{password}")
