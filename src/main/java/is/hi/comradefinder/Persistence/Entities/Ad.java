@@ -27,7 +27,7 @@ public class Ad {
     public Ad() {}
 
 
-    public Ad(String title, String description, List<String> extraQuestions, String companyUsername, String linkToPDFImage, List<String> tags) {
+    public Ad(String title, String description, String salaryRange, List<String> extraQuestions, String companyUsername, String linkToPDFImage, List<String> tags) {
         this.title = title;
         this.description = description;
         this.salaryRange = salaryRange;
@@ -79,7 +79,7 @@ public class Ad {
 
     public String getSalaryRange() { return salaryRange; }
 
-    public void setSalaryRange(String priceRange) { this.salaryRange = priceRange; }
+    public void setSalaryRange(String salaryRange) { this.salaryRange = salaryRange; }
 
     public List<String> getExtraQuestions() {
         return extraQuestions;
@@ -127,7 +127,7 @@ public class Ad {
                 "id=" + ID +
                 ", title='" + title + '\'' +
                 ", description=" + description +
-                ", priceRange=" + salaryRange +
+                ", salaryRange=" + salaryRange +
                 ", extraQuestions=" + extraQuestions +
                 ", company=" + companyUsername +
                 ", linkToPDFImage='" + linkToPDFImage + '\'' +

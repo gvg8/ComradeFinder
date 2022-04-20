@@ -201,7 +201,7 @@ public class HomeController {
         log.info("Logging out info: tags=" + tags.toString());
         log.info("Logging out info: tags.get(0)=" + tags.get(0));
         // 3. CREATE AD
-        Ad newAd = new Ad(title, description, extraQuestions, companyUsername, "", tags);
+        Ad newAd = new Ad(title, description, salaryRange, extraQuestions, companyUsername, "", tags);
 
         // 4. CHECK IF AD IS VALID
         // Check if ad already exists
@@ -229,6 +229,8 @@ public class HomeController {
     // TODO: Maybe I should do some try catches here.
     @RequestMapping(value = "/getAds", method = RequestMethod.GET)
     public List<Ad> GETAds() {
+        List<Ad> result = adService.findAll();
+        log.info("Ads that exist: " + result.toString());
         return adService.findAll();
     }
 
