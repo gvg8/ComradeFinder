@@ -15,7 +15,7 @@ public class Ad {
     @ElementCollection(fetch= FetchType.LAZY)
     private List<String> extraQuestions;
     //@OneToOne(mappedBy="ad", cascade= CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name="company_username")
+    //@JoinColumn(name="company_username")
     private String companyUsername;
     private String linkToPDFImage;
     @OneToMany(fetch=FetchType.LAZY)
