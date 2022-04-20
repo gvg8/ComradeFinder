@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "companies")
 public class Company extends Account {
 
-    private int SSN; // assigned -1 if missing
+    private String SSN; // assigned -1 if missing
     private String street;
     private String companyPhone;
     @OneToMany(fetch= FetchType.LAZY)
@@ -19,7 +19,7 @@ public class Company extends Account {
 
     public Company(String username, String password, String phone,
                    String email, String displayName, String description,
-                   int SSN, String street, String companyPhone) {
+                   String SSN, String street, String companyPhone) {
         this.username = username;
         this.password = password;
         this.phone = phone;
@@ -33,11 +33,11 @@ public class Company extends Account {
 
     // GETTERS AND SETTERS
 
-    public int getSSN() {
+    public String getSSN() {
         return SSN;
     }
 
-    public void setSSN(int SSN) {
+    public void setSSN(String SSN) {
         this.SSN = SSN;
     }
 

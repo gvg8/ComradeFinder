@@ -137,7 +137,7 @@ public class HomeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already taken");
         }
         // As of right now, displayName and description is unsupported. Might be added later.
-        Company companyCreated = new Company(username, password, phone, email, companyName, "", Integer.parseInt(SSN), "", "");
+        Company companyCreated = new Company(username, password, phone, email, companyName, "", SSN, "", "");
         log.info("Register checks passed");
         return new ResponseEntity<>(companyService.save(companyCreated), HttpStatus.CREATED);
     }
@@ -154,7 +154,7 @@ public class HomeController {
             user.setPassword(""); // For security reasons (no need to store password in app after login)
             return user;
         }
-        Company company = new Company(username, password, "", "", "", "", 0, "", "");
+        Company company = new Company(username, password, "", "", "", "", "", "", "");
         if (companyService.login(company) != null) {
             company.setPassword(""); // For security reasons (no need to store password in app after login)
             return company;
