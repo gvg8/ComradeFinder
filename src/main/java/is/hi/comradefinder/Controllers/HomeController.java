@@ -190,17 +190,18 @@ public class HomeController {
         for (int i = 1; i<EQArray.length; i=i+2) {
             extraQuestions.add(EQArray[i]);
         }
+        log.info("tTags before regex:" + tTags);
+        tTags = tTags.replaceAll("␟+", "␟");
+        log.info("tTags after regex:" + tTags);
         String[] tagsArray = tTags.split("␟");
         List<String> tags = new ArrayList();
-        for (int i = 1; i<EQArray.length; i=i+2) {
+        for (int i = 1; i<tagsArray.length; i=i+2) {
             tags.add(tagsArray[i]);
         }
-
+        log.info("Logging out info: tags=" + tags.toString());
+        log.info("Logging out info: tags.get(0)=" + tags.get(0));
         // 3. CREATE AD
-        Ad newAd = new Ad(title, description, extraQuestions, companyUsername, "");
-        for (String tag : tags) {
-            newAd.addTag(tag);
-        }
+        Ad newAd = new Ad(title, description, extraQuestions, companyUsername, "", tags);
 
         // 4. CHECK IF AD IS VALID
         // Check if ad already exists
@@ -212,10 +213,10 @@ public class HomeController {
         }
         // Check if required inputs were null
         String isMissing = "required but found empty";
-        if (title.equals("") || title == null) isMissing = "{title} " + isMissing;
-        if (description.equals("") || description == null) isMissing = "{description} " + isMissing;
-        if (salaryRange.equals("") || salaryRange == null) isMissing = "{salaryRange} " + isMissing;
-        if (companyUsername.equals("") || companyUsername == null) isMissing = "{companyUsername} " + isMissing;
+        if (title == null || title.equals("")) isMissing = "{title} " + isMissing;
+        if (description == null || description.equals("")) isMissing = "{description} " + isMissing;
+        if (salaryRange == null || salaryRange.equals("")) isMissing = "{salaryRange} " + isMissing;
+        if (companyUsername == null || companyUsername.equals("")) isMissing = "{companyUsername} " + isMissing;
         if (!isMissing.equals("required but found empty")) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, isMissing);
         }

@@ -1,6 +1,7 @@
 package is.hi.comradefinder.Persistence.Entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,13 +27,14 @@ public class Ad {
     public Ad() {}
 
 
-    public Ad(String title, String description, List<String> extraQuestions, String companyUsername, String linkToPDFImage) {
+    public Ad(String title, String description, List<String> extraQuestions, String companyUsername, String linkToPDFImage, List<String> tags) {
         this.title = title;
         this.description = description;
         this.salaryRange = salaryRange;
         this.extraQuestions = extraQuestions;
         this.companyUsername = companyUsername;
         this.linkToPDFImage = linkToPDFImage;
+        this.tags = tags;
     }
 
     // GETTER ANS SETTERS
